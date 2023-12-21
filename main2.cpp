@@ -5,7 +5,7 @@
 
 int shape = 1; // 0表示线段，1表示三角形，2表示四边形，3表示多边形
 float colorRed = 1.0, colorGreen = 1.0, colorBlue = 1.0; // 初始化颜色为白色
-int posX = 0, posY = 0; // 初始化图形位置为原点
+double posX = 0, posY = 0; // 初始化图形位置为原点
 
 void drawShape() {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -61,13 +61,13 @@ void keyboard(unsigned char key, int x, int y) {
 
 void specialKeys(int key, int x, int y) {
     if (key == GLUT_KEY_UP) {
-        posY += 0.5;
+        posY += 0.3;
     } else if (key == GLUT_KEY_DOWN) {
-        posY -= 0.5;
+        posY -= 0.3;
     } else if (key == GLUT_KEY_LEFT) {
-        posX -= 0.5;
+        posX -= 0.3;
     } else if (key == GLUT_KEY_RIGHT) {
-        posX += 0.5;
+        posX += 0.3;
     }
     drawShape();
 }
@@ -81,6 +81,19 @@ void mouse(int button, int state, int x, int y) {
     drawShape();
 }
 
+void myreshape(GLint w, GLint h) {
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    if(w<=h)
+        gluOrtho2D(-2.0, 2.0, -2.0*(GLfloat)h/(GLfloat)w,
+                   2.0*(GLfloat)h/(GLfloat)w);
+    else gluOrtho2D(-2.0*(GLfloat)w/(GLfloat)h,
+                    2.0*(GLfloat)w/(GLfloat)h, -2.0, 2.0);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutCreateWindow("Interactive Program");
@@ -89,6 +102,7 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(specialKeys);
     glutMouseFunc(mouse);
+    glutReshapeFunc(myreshape);
     glOrtho(-1, 1, -1, 1, -1, 1);
     glutMainLoop();
     return 0;
