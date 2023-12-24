@@ -6,5 +6,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 include_directories(include)
 link_directories(lib/x64)
-add_executable(opengl final.cpp)
+add_executable(opengl lightmain5.cpp)
 target_link_libraries(opengl libopengl32.a  libfreeglut.a  glu32.dll)
